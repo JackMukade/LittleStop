@@ -1,70 +1,151 @@
-# Getting Started with Create React App
+# Primer proyecto con ReactJs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ¿Qué es reactjs?
+Es un proyecto sencillo donde se aprendieron los conceptos de reactjs
 
-## Available Scripts
+# ¿Para que sirve?
+ReactJs es una libreria open source en donde se pueden hacer aplicaciones de una sola pagina, 
+se puede usar para controlar la vista para aplicaciones web y moviles.
 
-In the project directory, you can run:
+# Ventajas de React
+Mejora el desempeño con el Virtual DOM, JSX es mas facil de leer y escribir, diseño atomico.
 
-### `npm start`
+# Desventajas de React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# JSX
+JSX puede recordarte a un lenguaje de plantillas, pero viene con todo el poder de JavaScript. 
 
-### `npm test`
+# Elemento
+Es un pequeño bloque plano, “constituyen” los componentes y son inmutables
+Ejemplo: 
+const element = (
+    <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {new Date().toLocaleTimeString()}.</h2>
+    </div>
+);
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Componentes
+Los componentes son formados por los elementos y son como las funciones de JS y aceptan
+entradas de props, se pueden hacer de dos maneras.
 
-### `npm run build`
+Funciones
+function ProfilePage(props) {
+  
+  const handleClick = () => { setTimeout(showMessage, 3000); };
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  return ( < button onClick={handleClick}>Seguir</ button > );
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Clases
+function ProfilePage(props) {
+ 
+  const handleClick = () => { setTimeout(showMessage, 3000); };
 
-### `npm run eject`
+  return (< button onClick={handleClick}>Seguir</ button>);
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+}
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+La principal diferencia seria que antes las clases daban mas funcionalidades como las de state
+pero ahora con los hooks useState, useContext por ejemplo ya es posible usar las funciones con mas frencuencia
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+en este proyecto solo se usaron componentes con funciones
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Como usar los metodos o event handlers in JSX callbacks
 
-## Learn More
+Forma 1 Binding in Constructor (Larga)
+class Component extends React.Component {
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  handleClick() { } 
+}
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Forma 2 Public class fields syntax (La uso aqui)
+handleClick = () => { console.log('this is:', this); };
 
-### Analyzing the Bundle Size
+<button onClick={this.handleClick}>{'Click me'}</button>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Forma 3 Arrow functions in callbacks (No muy recomendable si usas props)
+<button onClick={(event) => this.handleClick(event)}>{'Click me'}</button>
+Note: If the callback is passed as prop to child components, those components might do an extra re-rendering.
 
-### Making a Progressive Web App
+# Como pasar datos a un event handler o callback
+Forma 1
+<button onClick={() => this.handleClick(id)} />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Forma 2
+<button onClick={this.handleClick.bind(this, id)} />
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+# Que es una callback
+Es una funcion que recibe otra funcion
+Ejemplo
+button.addEventListener('click', showAlert); la funcion addEventListener dice cuando ejecutar el callback
 
-### Deployment
+# Para que sirve la prop Key
+Se usa cuando se hacen elementos en array y ayuda a react a saber que elementos son modificados
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Para que sirve context
+Contexto da una manera de pasar datos sin pasar por todo el arbol de componentes de manera manual
 
-### `npm run build` fails to minify
+# Por que se usa className
+Por que class es una palabra clave de js y jsx es una extension de js 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Fragments vs Container Divs
+Es un patron que es usado para regresar multiples elementos, permite agrupar varios hijos sin hacer extra nodos 
+<> Hijos </>
+Fragments son mas rapidos y ocupan menos memoria y no interrumpe el Flexbox y Grid 
+
+# Componentes sin estado
+En todo el proyecto se usan estos componentes sin estado, son facil de escribir, entender, rapidos y no es necesario usario el this.
+Nota: en versiones 16.8 es posible trabajar asi con los componentes sin estado usando sus HOOKS
+
+import React, {useState} from 'react';
+
+const App = (props) => {
+  const [count, setCount] = useState(0);
+  return ()
+}
+
+# Componentes con estado
+Se usan cuando quieres quieres manejar el ciclo de vida  y los estados por ejemplo
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  render() { }
+
+}
+
+
+# Decoradores
+Con estos puedes pasar varios valores a una función
+
+const setTitle = (title) => (WrappedComponent) => {
+
+  return class extends React.Component {
+    componentDidMount() { document.title = title; }
+    render() { return <WrappedComponent {...this.props} />; }
+  };
+
+};
+
+
+# Material UI y Styled Components
+Son usados en este sistema para ver su funcionamiento.
+
+# React Router 
+Tambien es usado en este pagina para probar la navegación.
+
+# Firebase 
+Utilizado el login para hacer pruebas.
